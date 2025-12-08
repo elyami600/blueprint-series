@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <rect width="100%" height="100%" fill="#E8F7EA"/>
+  <circle cx="200" cy="140" r="80" fill="#A8E6B6"/>
+  <rect x="60" y="230" width="280" height="110" rx="12" fill="#EAF7EE"/>
+  <text x="200" y="150" font-family="Arial, Helvetica, sans-serif" font-size="48" fill="#1B5E20" text-anchor="middle" alignment-baseline="middle">G</text>
+  <text x="200" y="285" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#1B5E20" text-anchor="middle">Guest</text>
+</svg>

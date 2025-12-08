@@ -1,89 +1,116 @@
+// backend/data/events.js
 
-// Simple in-memory data for 2 events
 const events = {
   "1": {
-    id: 1,
-    slug: "blueprint-series",
-    title: "The BluePrint Series: A Fireside Chat with Rich Tu",
+    id: "1",
+    slug: "blueprint-series-rich-tu",
+    title: "The Blueprint Series: Fireside Chat with Rich Tu",
     date: "March 20, 2025",
     location: "New York, NY",
-    heroImage: "/hero.jpg", // same for all events
-    intro:
-      "Join a live conversation with Rich Tu, the award-winning designer behind the official 2019 FIFA World Cup poster...",
+    description:
+      "An intimate conversation exploring creative careers, identity, and storytelling in the design industry.",
+    introduction:
+      "Join us for a live conversation with Rich Tu as we discuss creative careers, identity, and navigating the design world. This session is part of our Blueprint Series, focused on elevating emerging talent and diverse voices.",
     agenda: [
-      { time: "5:30 PM", label: "DOORS OPEN" },
-      { time: "6:00 PM", label: "WELCOME & INTRODUCTIONS" },
-      { time: "6:15 PM", label: "FIRESIDE CHAT" },
-      { time: "7:00 PM", label: "Q&A" },
-      { time: "7:30 PM", label: "NETWORKING" }
+      { time: "6:00 PM", title: "Check-in & Welcome" },
+      { time: "6:30 PM", title: "Fireside Chat with Rich Tu" },
+      { time: "7:15 PM", title: "Audience Q&A" },
+      { time: "7:45 PM", title: "Networking" },
     ],
     speakers: [
       {
         name: "Rich Tu",
-        title: "Artist",
-        photo: "/speakers/rich-tu.jpg"
+        title: "VP of Design, MTV Entertainment Group",
+        image: "/images/speaker1.png",
       },
       {
-        name: "Jane Hudson",
-        title: "Creative Director, XYZ",
-        photo: "/speakers/jane-hudson.jpg"
+        name: "Moderator Name",
+        title: "Host, Blueprint Series",
+        image: "/images/speaker2.png",
       },
       {
-        name: "Mina Chang",
-        title: "Host",
-        photo: "/speakers/mina-chang.jpg"
-      }
+        name: "Guest Name",
+        title: "Designer & Creative",
+        image: "/images/speaker3.png",
+      },
     ],
-    detailsTitle: "The Event",
-    detailsBody:
-      "Blueprint is a series of conversations with designers pushing culture forward. In this session, Rich will walk us through his process, from early sketches to the final FIFA World Cup poster...",
+    details:
+      "This event is designed for emerging designers, creatives, and students who want to hear an honest conversation about breaking into the industry, facing imposter syndrome, and finding your unique voice.",
     previousEvents: [
-      { title: "BluePrint: Designing the Future", year: 2023 },
-      { title: "BluePrint: Visual Stories", year: 2022 }
+      {
+        title: "Blueprint Series: Designing for Community",
+        date: "January 15, 2025",
+      },
+      {
+        title: "Blueprint Series: Stories in Motion",
+        date: "November 10, 2024",
+      },
     ],
     faq: [
       {
-        question: "Do I need a ticket?",
-        answer: "Yes, please reserve a spot in advance. (Placeholder text for now.)"
+        question: "Is this event free?",
+        answer: "Yes, this event is free with RSVP.",
       },
       {
-        question: "Will this be recorded?",
-        answer: "A recording may be shared after the event. (Placeholder.)"
-      }
-    ]
+        question: "Will there be a recording?",
+        answer:
+          "We plan to record the conversation and share highlights after the event.",
+      },
+      {
+        question: "Do I need prior design experience?",
+        answer:
+          "No, this event is open to anyone interested in creativity, design, or storytelling.",
+      },
+    ],
   },
+
   "2": {
-    id: 2,
-    slug: "future-of-product-design",
-    title: "The Future of Product Design",
+    id: "2",
+    slug: "blueprint-series-jane-doe",
+    title: "The Blueprint Series: Building Creative Confidence with Jane Doe",
     date: "April 10, 2025",
     location: "Brooklyn, NY",
-    heroImage: "/hero.jpg",
-    intro:
-      "A panel discussion on how emerging tools are changing the way designers prototype and ship products.",
+    description:
+      "A conversation on creative leadership, collaboration, and building confidence in your work.",
+    introduction:
+      "In this Blueprint Series session, Jane Doe shares lessons from leading creative teams and building a sustainable, fulfilling career in design.",
     agenda: [
-      { time: "6:00 PM", label: "CHECK-IN" },
-      { time: "6:30 PM", label: "OPENING REMARKS" },
-      { time: "6:45 PM", label: "PANEL DISCUSSION" },
-      { time: "7:30 PM", label: "AUDIENCE Q&A" },
-      { time: "8:00 PM", label: "MIXER" }
+      { time: "6:00 PM", title: "Doors Open & Check-in" },
+      { time: "6:30 PM", title: "Talk: Building Creative Confidence" },
+      { time: "7:15 PM", title: "Q&A" },
+      { time: "7:45 PM", title: "Networking" },
     ],
     speakers: [
-      { name: "Alex Kim", title: "Head of Product, Alpha", photo: "/speakers/alex-kim.jpg" },
-      { name: "Sara Lopez", title: "Sr. Product Designer, Beta", photo: "/speakers/sara-lopez.jpg" },
-      { name: "Chris Wong", title: "Moderator", photo: "/speakers/chris-wong.jpg" }
+      {
+        name: "Jane Doe",
+        title: "Creative Director, Studio XYZ",
+        image: "/images/speaker1.png", // reuse or swap as you like
+      },
+      {
+        name: "Host Name",
+        title: "Program Host",
+        image: "/images/speaker2.png",
+      },
     ],
-    detailsTitle: "The Event",
-    detailsBody:
-      "We’ll talk about AI tools, rapid prototyping, and how teams can adapt to faster design cycles.",
-    previousEvents: [{ title: "Intro to Design Systems", year: 2024 }],
+    details:
+      "We’ll explore how to build confidence in your creative decision-making, communicate your ideas clearly, and collaborate effectively with cross-functional teams.",
+    previousEvents: [
+      {
+        title: "Blueprint Series: Design Systems in Practice",
+        date: "February 8, 2025",
+      },
+    ],
     faq: [
       {
-        question: "Is there a dress code?",
-        answer: "Casual or business casual is perfect."
-      }
-    ]
-  }
+        question: "Where is the venue?",
+        answer: "The venue details will be shared via email after RSVP.",
+      },
+      {
+        question: "Can I bring a guest?",
+        answer: "Yes, guests are welcome but must RSVP separately.",
+      },
+    ],
+  },
 };
 
 module.exports = events;
