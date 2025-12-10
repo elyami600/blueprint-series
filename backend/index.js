@@ -1,25 +1,20 @@
 // backend/index.js
 const express = require("express");
 const cors = require("cors");
-const events = require("./data/events"); // now matches our export
+const events = require("./data/events"); 
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/api/events/:id", (req, res) => {
-  const { id } = req.params;
-  const event = events[id];
-
-  if (!event) {
-    return res.status(404).json({ message: "Event not found" });
+app.get('/api/events/:id', (req, res) => {
+  const eventId = parseInt(req.params.id);
+  const event = events[eventId];
+  if (event) {
+    res.json(event);
+  } else {
+    res.status(404).json({ error: 'Event not found' });
   }
-
-  res.json(event);
-});
-
-app.get("/api/events", (req, res) => {
-  res.json(Object.values(events));
 });
 
 app.listen(4000, () => {

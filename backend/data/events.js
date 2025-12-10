@@ -91,6 +91,11 @@ const events = {
         title: "Program Host",
         image: "/images/speaker2.png",
       },
+       {
+        name: "Host Name",
+        title: "Program Host",
+        image: "/images/speaker3.png",
+      },
     ],
     details:
       "We’ll explore how to build confidence in your creative decision-making, communicate your ideas clearly, and collaborate effectively with cross-functional teams.",

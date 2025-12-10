@@ -24,3 +24,25 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* styles/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased;
+  }
+}
+
+/* Custom fonts - Add to your project if needed */
+@layer components {
+  .section-title {
+    @apply text-4xl md:text-5xl font-bold text-gray-900 mb-8;
+  }
+  
+  .section-subtitle {
+    @apply text-xl text-gray-600 mb-12;
+  }
+}

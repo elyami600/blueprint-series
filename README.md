@@ -42,5 +42,6 @@ http://localhost:3000
 
 
 Event Routes
-/events/1
-/events/2
+/events/1. http://localhost:3000/events/1
+/events/2. http://localhost:3000/events/2
+
