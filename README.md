@@ -104,6 +104,7 @@ npm run dev
 | `GET /api/agenda/:id` | Get event agenda |
 | `GET /api/speakers/:id` | Get event speakers |
 | `GET /api/event-details/:id` | Get event details |
+| `GET /api/previous-events/:id` | Get Past Events |
 | `GET /api/faq/:id` | Get FAQ items |
 
 
