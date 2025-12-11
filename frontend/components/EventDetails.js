@@ -1,90 +1,123 @@
 // components/EventDetails.jsx
-export default function EventDetails({ content, mainImage, gallery = [] }) {
-  // Fallback collage images if none are passed from the API
-  const collage = [
-    gallery[0] ||
-      "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&h=600&fit=crop",
-    gallery[1] ||
-      "https://images.unsplash.com/photo-1526498460520-4c246339dccb?w=800&h=600&fit=crop",
-    gallery[2] ||
-      "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=800&h=600&fit=crop",
-  ];
+
+/**
+ * props:
+ *  - details: string (from detailsDB[id].content)
+ *  - previousEvents: array of events (from previousEventsDB[id].events)
+ */
+export default function EventDetails({ details, previousEvents = [] }) {
+  const mainImage = previousEvents[0];
+  const leftImage = previousEvents[1] || mainImage;
+  const rightImage = previousEvents[2] || mainImage;
 
   return (
     <section className="bg-white py-24">
-      <div className="max-w-[1156px] mx-auto px-4 flex flex-col gap-16">
-        {/* BIG TITLE – “The Event” */}
-        <div className="h-[112px] flex items-center justify-center">
-          <h2 className="text-[56px] md:text-[112px] leading-[112px] font-semibold tracking-[-0.085em] text-black">
-            The Event
-          </h2>
+      <div className="relative mx-auto flex max-w-[1156px] flex-col gap-[60px] px-4">
+        {/* Top title row (1156 × 112) */}
+        <div className="h-[112px] w-full">
+          <div className="relative h-full w-full">
+            <h2
+              className="
+                absolute left-1/2 top-0 flex h-[112px] w-[472px]
+                -translate-x-1/2 items-center justify-center
+                text-[72px] md:text-[96px] lg:text-[112px]
+                leading-[112px] font-semibold tracking-[-0.075em] text-black
+              "
+            >
+              The Event
+            </h2>
+          </div>
         </div>
 
-        {/* TWO-COLUMN BLOCK */}
-        <div className="flex flex-col md:flex-row gap-[86px]">
-          {/* LEFT – INTRODUCTION OF THIS EVENT */}
-          <div className="flex-1 max-w-[535px]">
-            <div className="flex items-start gap-3 mb-6">
-              {/* black square bullet */}
-              <div className="w-3 h-3 mt-[6px] bg-black" />
-              <h3 className="font-mono text-[14px] md:text-[16px] tracking-[0.2em] uppercase">
-                Introduction of this event
-              </h3>
+
+        <div className="flex w-full max-w-[1070px] flex-col gap-[40px] md:flex-row md:gap-[86px]">
+          <div className="flex w-full max-w-[535px] flex-col gap-[20px]">
+            <div className="relative h-[24px] w-[413px]">
+              <span className="absolute left-0 top-[6px] h-[12px] w-[12px] bg-black" />
+              <span
+                className="
+                  absolute left-[22.5px] top-0 flex h-[24px] w-[391px]
+                  items-center
+                  font-mono text-[24px] leading-[24px] uppercase
+                "
+              >
+                introduction of this event
+              </span>
             </div>
 
-            <p className="text-[18px] md:text-[24px] leading-[34px] text-black">
-              {content}
-            </p>
+            <div className="w-[535px]">
+              <p className="flex h-auto w-full items-center font-sans text-[24px] leading-[34px] text-black">
+                {details ||
+                  "Presented as part of The Gradient's Blueprint Series, this fireside chat—moderated by Love Malone, CEO of The Gradient—will dive into Rich's creative journey, his thoughts on where the industry is headed, and how design continues to shape identity, storytelling, and the future of culture."}
+              </p>
+            </div>
           </div>
 
-          {/* RIGHT – OUR PAST EVENTS + TALL IMAGE */}
-          <div className="flex-1 max-w-[535px]">
-            <div className="flex items-start gap-3 mb-6">
-              <div className="w-3 h-3 mt-[6px] bg-black" />
-              <h3 className="font-mono text-[14px] md:text-[16px] tracking-[0.2em] uppercase">
-                Our past events
-              </h3>
+          {/* RIGHT – OUR PAST EVENTS (535 × 743) */}
+          <div className="relative w-full max-w-[535px]">
+            {/* label row */}
+            <div className="relative mb-[20px] h-[24px] w-[289px]">
+              <span className="absolute left-0 top-[6px] h-[12px] w-[12px] bg-black" />
+              <span
+                className="
+                  absolute left-[22.5px] top-0 flex h-[24px] w-[300px]
+                  items-center
+                  font-mono text-[24px] leading-[24px] uppercase
+                "
+              >
+                our past events
+              </span>
             </div>
 
-            <div className="w-[453px] max-w-full h-[679px] overflow-hidden">
+            {/* tall image – 453 × 679 inside 535 × 699 frame */}
+            <div className="relative h-[699px] w-[535px]">
               <img
                 src={
-                  mainImage ||
+                  mainImage?.image ||
                   "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=1200&fit=crop"
                 }
-                alt="Event"
-                className="w-full h-full object-cover"
+                alt={mainImage?.title || "Past events"}
+                className="absolute left-0 top-0 h-[679px] w-[453px] object-cover"
               />
             </div>
           </div>
         </div>
 
-        {/* COLLAGE – THREE TILTED IMAGES AT THE BOTTOM */}
-        <div className="relative w-full h-[340px] mt-4">
-          {/* left image */}
-          <div className="absolute left-[22px] top-[40px] w-[280px] h-[210px] rounded-md overflow-hidden shadow-lg -rotate-6">
+        {/* Bottom collage (1156 × 425) */}
+        <div className="relative h-[425px] w-full max-w-[1156px]">
+          {/* left image – 439 × 326 at (22, 38.98) */}
+          <div className="absolute left-[22px] top-[38.98px] h-[326px] w-[439px] overflow-hidden">
             <img
-              src={collage[0]}
-              alt="Previous event 1"
-              className="w-full h-full object-cover"
+              src={
+                leftImage?.image ||
+                "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=800&h=600&fit=crop"
+              }
+              alt={leftImage?.title || "Previous event 1"}
+              className="h-full w-full object-cover"
             />
           </div>
 
-          {/* center image */}
-          <div className="absolute left-1/2 -translate-x-1/2 top-[10px] w-[300px] h-[220px] rounded-md overflow-hidden shadow-lg rotate-2">
+          {/* center image – 472 × 344.68 at (330.44, 14) */}
+          <div className="absolute left-[330.44px] top-[14px] h-[344.68px] w-[472px] overflow-hidden">
             <img
-              src={collage[1]}
-              alt="Previous event 2"
-              className="w-full h-full object-cover"
+              src={
+                mainImage?.image ||
+                "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&h=600&fit=crop"
+              }
+              alt={mainImage?.title || "Previous event 2"}
+              className="h-full w-full object-cover"
             />
           </div>
 
-          {/* right image */}
-          <div className="absolute right-[22px] top-[55px] w-[290px] h-[215px] rounded-md overflow-hidden shadow-lg rotate-6">
+          {/* right image – 423 × 319.88 at (733, 52.56) */}
+          <div className="absolute left-[733px] top-[52.56px] h-[319.88px] w-[423px] overflow-hidden">
             <img
-              src={collage[2]}
-              alt="Previous event 3"
-              className="w-full h-full object-cover"
+              src={
+                rightImage?.image ||
+                "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=600&fit=crop"
+              }
+              alt={rightImage?.title || "Previous event 3"}
+              className="h-full w-full object-cover"
             />
           </div>
         </div>

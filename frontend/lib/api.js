@@ -3,6 +3,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 
 class EventAPI {
   async fetchWithError(url) {
+     console.log('Fetching URL:', url);
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`API Error: ${response.statusText}`);

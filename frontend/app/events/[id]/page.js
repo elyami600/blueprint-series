@@ -1,5 +1,8 @@
 // app/events/[id]/page.js
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
 
 import NavBar from "@/components/Navbar";
 import Hero from "@/components/Hero";
@@ -7,36 +10,55 @@ import Introduction from "@/components/Introduction";
 import Agenda from "@/components/Agenda";
 import Speakers from "@/components/Speakers";
 import EventDetails from "@/components/EventDetails";
+import PreviousEvents from "@/components/PreviousEvents";
 import FAQ from "@/components/FAQ";
 import Loading from "@/components/Loading";
 import ErrorMessage from "@/components/ErrorMessage";
 import Footer from "@/components/Footer";
+import eventAPI from "@/lib/api";
 
+export default function EventPage() {
+  const params = useParams();
+  const id = params?.id ?? "1"; // defaults to event 1 if missing
 
-async function getEvent(id) {
-  const res = await fetch(`http://localhost:4000/api/events/${id}`, {
-    cache: "no-store",
-  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError]   = useState(null);
+  const [data, setData]     = useState(null);
 
-  if (!res.ok) {
-    throw new Error(`Failed to fetch event ${id}: ${res.status}`);
-  }
+  useEffect(() => {
+    if (!id) return;
 
-  return res.json();
-}
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
 
-// Next 15 passes params as a Promise – unwrap it
-export default async function EventPage({ params }) {
-  const { id = "1" } = await params;
+      try {
+        const eventData = await eventAPI.getEventData(id);
+        setData(eventData);
+      } catch (err) {
+        console.error("Error fetching event:", err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  let event;
-  try {
-    event = await getEvent(id);
-  } catch (e) {
-    return <ErrorMessage message={e.message} />;
-  }
+    fetchData();
+  }, [id]);
 
-  if (!event) return <Loading />;
+  if (loading) return <Loading />;
+  if (error)   return <ErrorMessage message={error} />;
+  if (!data)   return <ErrorMessage message="Event not found" />;
+
+  const {
+    event,
+    introduction,
+    agenda,
+    speakers,
+    eventDetails,
+    previousEvents,
+    faq,
+  } = data;
 
   return (
     <main className="bg-white text-black">
@@ -49,31 +71,40 @@ export default async function EventPage({ params }) {
 
       {/* INTRO SECTION */}
       <section id="intro">
-        <Introduction content={event.introduction} />
+        {/* introduction from API is { content: "..." } */}
+        <Introduction content={introduction?.content || ""} />
       </section>
 
       {/* AGENDA SECTION */}
       <section id="agenda">
-        <Agenda items={event.agenda || []} />
+        {/* agenda from API is { items: [...] } */}
+        <Agenda items={agenda?.items || []} />
       </section>
 
       {/* SPEAKERS SECTION */}
       <section id="speakers">
-        <Speakers speakers={event.speakers || []} />
+        {/* speakers from API is { speakers: [...] } */}
+        <Speakers speakers={speakers?.speakers || []} />
       </section>
 
-      {/* “THE EVENT” SECTION – uses `details` from events.js */}
+      {/* “THE EVENT” SECTION */}
       <section>
-       <EventDetails content={event.details || ""} mainImage={event.eventMainImage} gallery={event.previousEventImages || []} />
-
+        {/* eventDetails from API is { content: "..." } */}
+        <EventDetails
+          content={eventDetails?.content || ""}
+          mainImage={event.heroImage}                 // from eventsDB
+          gallery={previousEvents?.events || []}      // array of previous events
+        />
       </section>
+
 
       {/* FAQ SECTION */}
       <section>
-        <FAQ questions={event.faq || []} />
+        {/* faq from API is { questions: [...] } */}
+        <FAQ questions={faq?.questions || []} />
       </section>
 
-      {/* FOOTER LIKE FIGMA */}
+      {/* FOOTER */}
       <Footer />
     </main>
   );

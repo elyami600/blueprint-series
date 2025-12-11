@@ -1,5 +1,6 @@
 // components/Introduction.jsx
 export default function Introduction({ content }) {
+    console.log("Introduction content:", content);
   return (
     <section id="intro" className="bg-white py-20 md:py-24">
       <div className="max-w-[1280px] mx-auto px-6 md:px-10">

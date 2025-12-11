@@ -14,6 +14,9 @@ export default function Hero({ event }) {
         fill
         priority
         className="object-cover object-center scale-105"
+        sizes="(max-width: 768px) 100vw,
+       (max-width: 1200px) 50vw,
+       33vw"
       />
 
       {/* Figma Blue Radial Overlay */}

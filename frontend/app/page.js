@@ -1,120 +1,121 @@
-// app/page.jsx
-import React from "react";
+// // app/page.jsx
+'use client'
+import Head from 'next/head';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import eventAPI from '@/lib/api';
+import Loading from '@/components/Loading';
+import ErrorMessage from '@/components/ErrorMessage';
 
-import NavBar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import Introduction from "@/components/Introduction";
-import Agenda from "@/components/Agenda";
-import Speakers from "@/components/Speakers";
-import EventDetails from "@/components/EventDetails";
-import FAQ from "@/components/FAQ";
-import Loading from "@/components/Loading";
-import ErrorMessage from "@/components/ErrorMessage";
-import Footer from "@/components/Footer";
+export default function Home() {
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError]   = useState(null);
 
-// ✅ 1) Configurable API base (works locally and in prod)
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000";
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const data = await eventAPI.getAllEvents();
+        setEvents(data);
+      } catch (err) {
+        console.error('Error fetching events:', err);
+         setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-// ✅ 2) Optional fallback event if API is down (so page still shows something)
-const FALLBACK_EVENT = {
-  title: "The Blueprint Series: Fireside Chat with Rich Tu",
-  date: "March 20, 2025",
-  location: "New York, NY",
-  introduction:
-    "Join us for a live conversation with Rich Tu as we discuss creative careers, identity, and navigating the design world.",
-  agenda: [
-    { time: "6:00 PM", title: "Check-in & Welcome" },
-    { time: "6:30 PM", title: "Fireside Chat with Rich Tu" },
-    { time: "7:15 PM", title: "Audience Q&A" },
-    { time: "7:45 PM", title: "Networking" },
-  ],
-  speakers: [
-    {
-      name: "Rich Tu",
-      title: "VP of Design, MTV Entertainment Group",
-      image: "/images/speaker1.png",
-    },
-    {
-      name: "Moderator Name",
-      title: "Host, Blueprint Series",
-      image: "/images/speaker2.png",
-    },
-    {
-      name: "Guest Name",
-      title: "Designer & Creative",
-      image: "/images/speaker3.png",
-    },
-  ],
-  details:
-    "This event is designed for emerging designers, creatives, and students who want to hear an honest conversation about breaking into the industry, facing imposter syndrome, and finding your unique voice.",
-  faq: [
-    {
-      question: "Is this event free?",
-      answer: "Yes, this event is free with RSVP.",
-    },
-  ],
-};
+    fetchEvents();
+  }, []);
 
-// Fetch EVENT #1 from backend
-async function getEvent() {
-  const res = await fetch(`${API_BASE_URL}/api/events/1`, {
-    cache: "no-store",
-  });
-
-  if (!res.ok) throw new Error(`Failed to fetch event: ${res.status}`);
-  return res.json();
-}
-
-export default async function HomePage() {
-  let event;
-
-  try {
-    event = await getEvent();
-  } catch (e) {
-    console.error("API error, using fallback event:", e);
-    // ✅ Use fallback instead of breaking the page
-    event = FALLBACK_EVENT;
-    // Or if you prefer to show an error instead, you could:
-    // return <ErrorMessage message={e.message} />;
-  }
-
-  if (!event) return <Loading />;
+    if (loading) return <Loading />;
+    if (error)   return <ErrorMessage message={error} />;
 
   return (
-    <main className="bg-white text-black">
-      <NavBar />
+    <>
+      <Head>
+        <title>Event Website - Home</title>
+        <meta name="description" content="Discover upcoming events" />
+      </Head>
 
-      {/* Hero */}
-      <section id="tickets">
-        <Hero event={event} />
-      </section>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+        <div className="max-w-6xl mx-auto px-4 py-20">
+          <div className="text-center mb-16">
+            <h1 className="text-6xl font-bold mb-4 text-gray-900">
+              Discover Amazing Events
+            </h1>
+            <p className="text-xl text-gray-600">
+              Choose an event to explore
+            </p>
+          </div>
 
-      {/* Intro */}
-      <section id="intro">
-        <Introduction content={event.introduction} />
-      </section>
+          {loading ? (
+            <div className="text-center">
+              <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 gap-8">
+              {events.map((event) => (
+                <Link
+                  key={event.id}
+                  href={`/events/${event.id}`}
+                  className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-all transform hover:-translate-y-2"
+                >
+                  <div className="relative h-64 bg-gradient-to-r from-blue-600 to-indigo-700">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-center text-white p-8">
+                        <h2 className="text-3xl font-bold mb-2">
+                          {event.title}
+                        </h2>
+                        <p className="text-blue-100 text-lg mb-4">
+                          {event.date}
+                        </p>
+                        <p className="text-white">
+                          {event.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-gray-600 text-sm">Location</p>
+                        <p className="font-semibold text-gray-900">
+                          {event.location}
+                        </p>
+                      </div>
+                      <button className="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition">
+                        View Details
+                      </button>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        <div className="text-center mt-16">
+        <div className="bg-white rounded-lg shadow-md p-8 inline-block">
+          <h3 className="text-2xl font-bold mb-4 text-gray-900">
+            Upcoming Events
+          </h3>
+          <div className="flex gap-4 justify-center">
+            {
+              events.map((event) => (
+                <Link
+                  key={event.id} 
+                  href={`/events/${event.id}`} 
+                  className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+                >
+                  {event.name || `Event ${event.id}:   ${event.title}`}
+                </Link>
+              ))}
 
-      {/* Agenda */}
-      <section id="agenda">
-        <Agenda items={event.agenda || []} />
-      </section>
+          </div>
+        </div>
+        </div>
 
-      {/* Speakers */}
-      <section id="speakers">
-        <Speakers speakers={event.speakers || []} />
-      </section>
-
-      {/* Details */}
-      <section id="details">
-        <EventDetails content={event.details || ""} />
-      </section>
-
-      {/* FAQ */}
-      <section id="faq">
-        <FAQ questions={event.faq || []} />
-      </section>
-
-      <Footer />
-    </main>
+        </div>
+      </div>
+    </>
   );
 }

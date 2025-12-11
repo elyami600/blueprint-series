@@ -74,7 +74,6 @@ const app = express();
 
 const PORT = process.env.PORT || 4000;
 
-// 👉 import your mock DBs
 const {
   eventsDB,
   introductionsDB,
@@ -149,7 +148,7 @@ app.get("/api/details/:id", (req, res) => {
 });
 
 // GET /api/previous-events/:id
-app.get("/api/previous-events/:id", (req, res) => {
+app.get('/api/event-details/:id', (req, res) => {
   const id = req.params.id;
   const previous = previousEventsDB[id];
 
@@ -158,6 +157,17 @@ app.get("/api/previous-events/:id", (req, res) => {
   }
 
   res.json(previous);
+});
+
+app.get("/api/previous-events/:id", (req, res) => {
+  const id = req.params.id;
+  const prev = previousEventsDB[id];
+
+  if (!prev) {
+    return res.status(404).json({ error: "Previous events not found" });
+  }
+
+  res.json(prev);
 });
 
 // GET /api/faq/:id
@@ -172,7 +182,25 @@ app.get("/api/faq/:id", (req, res) => {
   res.json(faq);
 });
 
+// Define the new GET /api/events route
+app.get('/api/events', (req, res) => {
+  // Convert the eventsDB object into a list/array of events
+  const allEventsList = Object.values(eventsDB); 
+  
+  if (allEventsList.length === 0) {
+    // If no events are found, return an empty array with 200 OK status
+    return res.status(200).json([]);
+  }
+
+  // Return the list of all events as JSON
+  res.status(200).json(allEventsList);
+});
+
+
 app.listen(PORT, () => {
   console.log(`API running on http://localhost:${PORT}`);
 });
 module.exports = app;
+
+
+//http://localhost:4000/api/previous-events/1 
