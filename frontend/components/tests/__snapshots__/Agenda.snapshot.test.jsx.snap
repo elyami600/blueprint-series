@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Agenda matches snapshot 1`] = `
+<DocumentFragment>
+  <section
+    class="bg-white py-24 md:py-32"
+    id="agenda"
+  >
+    <div
+      class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
+    >
+      <div
+        class="mb-16 md:mb-20"
+      >
+        <h2
+          class="text-[56px] md:text-[96px] lg:text-[112px] leading-[1] font-semibold tracking-[-0.085em] text-center"
+        >
+          Agenda
+        </h2>
+      </div>
+      <div
+        class="flex flex-col gap-10 md:gap-12"
+      >
+        <div
+          class="grid grid-cols-1 md:grid-cols-[1fr_2fr_1fr] lg:grid-cols-[400px_1fr_max-content] items-start gap-4 md:gap-8"
+        >
+          <div
+            class="flex items-start gap-4"
+          >
+            <div
+              class="w-[4px] h-16 bg-black flex-shrink-0"
+            />
+            <div
+              class="flex flex-col gap-1"
+            >
+              <div
+                class="text-base md:text-lg font-normal uppercase tracking-[0.15em]"
+              >
+                10:00 AM
+              </div>
+              <div
+                class="text-base md:text-lg font-normal uppercase tracking-[0.15em]"
+              >
+                Coffee
+              </div>
+            </div>
+          </div>
+          <p
+            class="text-base md:text-lg leading-relaxed text-black/90"
+          >
+            Welcome
+          </p>
+          <div
+            class="md:text-lg lg:text-xl uppercase tracking-[0.15em] text-black/90 md:text-right flex-shrink-0"
+          >
+            GROUND FLOOR
+          </div>
+        </div>
+        <div
+          class="grid grid-cols-1 md:grid-cols-[1fr_2fr_1fr] lg:grid-cols-[400px_1fr_max-content] items-start gap-4 md:gap-8"
+        >
+          <div
+            class="flex items-start gap-4"
+          >
+            <div
+              class="w-[4px] h-16 bg-black flex-shrink-0"
+            />
+            <div
+              class="flex flex-col gap-1"
+            >
+              <div
+                class="text-base md:text-lg font-normal uppercase tracking-[0.15em]"
+              >
+                10:30 AM
+              </div>
+              <div
+                class="text-base md:text-lg font-normal uppercase tracking-[0.15em]"
+              >
+                Keynote
+              </div>
+            </div>
+          </div>
+          <p
+            class="text-base md:text-lg leading-relaxed text-black/90"
+          >
+            Trends
+          </p>
+          <div
+            class="md:text-lg lg:text-xl uppercase tracking-[0.15em] text-black/90 md:text-right flex-shrink-0"
+          >
+            GROUND FLOOR
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</DocumentFragment>
+`;
