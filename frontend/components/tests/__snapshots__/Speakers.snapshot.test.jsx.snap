@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Speakers matches snapshot 1`] = `
+<DocumentFragment>
+  <section
+    class="bg-white py-24 md:py-32"
+    id="speakers"
+  >
+    <div
+      class="max-w-[1280px] mx-auto px-4"
+    >
+      <h2
+        class="mb-20 text-[56px] md:text-[96px] lg:text-[112px] font-semibold tracking-[-0.085em] text-center"
+      >
+        Speakers
+      </h2>
+      <div
+        class="grid grid-cols-1 md:grid-cols-3 justify-items-center gap-16"
+      >
+        <div
+          class="text-center"
+        >
+          <div
+            class="w-[260px] h-[260px] lg:w-[294px] lg:h-[294px] rounded-full overflow-hidden mb-6"
+          >
+            <img
+              alt="Dr. Sarah Chen"
+              class="w-full h-full object-cover grayscale"
+              src="/speakers/sarah-chen.png"
+            />
+          </div>
+          <p
+            class="text-[24px] font-medium tracking-[-0.02em] mb-1"
+          >
+            Dr. Sarah Chen
+          </p>
+          <p
+            class="text-[16px] lg:text-[20px] uppercase tracking-[0.15em] text-[#6D6D6D] opacity-50"
+          >
+            Chief AI Officer
+          </p>
+        </div>
+        <div
+          class="text-center"
+        >
+          <div
+            class="w-[260px] h-[260px] lg:w-[294px] lg:h-[294px] rounded-full overflow-hidden mb-6"
+          >
+            <img
+              alt="Marcus Rodriguez"
+              class="w-full h-full object-cover grayscale"
+              src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop"
+            />
+          </div>
+          <p
+            class="text-[24px] font-medium tracking-[-0.02em] mb-1"
+          >
+            Marcus Rodriguez
+          </p>
+          <p
+            class="text-[16px] lg:text-[20px] uppercase tracking-[0.15em] text-[#6D6D6D] opacity-50"
+          >
+            CEO
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</DocumentFragment>
+`;

@@ -18,7 +18,7 @@ export default function Introduction({ content }) {
 
           {/* Body text */}
           <p className="text-[24px] md:text-[32px] leading-[40px] text-black">
-            {content}
+            {content || "Event introduction coming soon."}
           </p>
         </div>
       </div>
