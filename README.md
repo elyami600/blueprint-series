@@ -261,6 +261,17 @@ module.exports = nextConfig
 - [x] `frontend/styles/globals.css`
 
 ---
+## Testing
+
+- **Jest** is used as the unit test runner.
+- **Supertest** is used to test backend HTTP API endpoints.
+- Backend API endpoints were manually tested using **Postman** and **curl**.
+- Verified correct `200` responses for valid event IDs.
+- Confirmed proper `404` responses for invalid or missing resources.
+- Frontend behavior was tested in the browser to validate loading states, error handling, and dynamic routing.
+- Frontend components were validated to ensure proper props usage, conditional rendering, and API-driven state updates.
+- Ensured the frontend correctly consumes and renders data from the backend API.
+
 
 ## 🎯 Development Notes
 
