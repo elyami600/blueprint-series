@@ -19,7 +19,7 @@ import eventAPI from "@/lib/api";
 
 export default function EventPage() {
   const params = useParams();
-  const id = params?.id ?? "1"; // defaults to event 1 if missing
+  const id = params?.id ?? "1"; 
 
   const [loading, setLoading] = useState(true);
   const [error, setError]   = useState(null);
