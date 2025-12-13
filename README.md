@@ -7,20 +7,33 @@ A full-stack event website built with **Next.js 15 (App Router)** and **Express.
 ```
 project/
 │
-├── backend/              # Express.js API
-│   ├── data/
-│   │   └── events.js    # Event data store
-│   ├── index.js         # Express server
+├── backend/                         # Express.js API
+│   ├── src/
+│   │   ├── app.js                   # Express app configuration
+│   │   ├── server.js                # Server entry point
+│   │   ├── index.js                 # App bootstrap
+│   │   ├── controllers/
+│   │   │   └── eventController.js   # API business logic
+│   │   ├── routes/
+│   │   │   └── eventRoutes.js       # API route definitions
+│   │   ├── data/
+│   │   │   └── mockData.js           # Mock event data (in-memory)
+│   │   │
+│   │   └── tests/
+│   │       └── event.test.js         # Jest + Supertest API tests
+│   │
 │   ├── package.json
+│   ├── package-lock.json
 │   └── .gitignore
 │
-└── frontend/            # Next.js App
+└── frontend/                        # Next.js App (App Router)
     ├── app/
-    │   ├── layout.jsx   # Root layout
-    │   ├── page.jsx     # Homepage (Event 1)
+    │   ├── layout.jsx               # Root layout
+    │   ├── page.jsx                 # Homepage (event list)
     │   └── events/
     │       └── [id]/
-    │           └── page.js  # Dynamic event pages
+    │           └── page.js           # Dynamic event detail page
+    │
     ├── components/
     │   ├── Navbar.jsx
     │   ├── Hero.jsx
@@ -28,20 +41,28 @@ project/
     │   ├── Agenda.jsx
     │   ├── Speakers.jsx
     │   ├── EventDetails.jsx
+    │   ├── PreviousEvents.jsx
     │   ├── FAQ.jsx
     │   ├── FAQItem.jsx
     │   ├── Footer.jsx
     │   ├── Loading.jsx
     │   └── ErrorMessage.jsx
+    │
+    ├── lib/
+    │   └── api.js                   # Frontend API service layer
+    │
     ├── public/
     │   └── images/
+    │
     ├── styles/
     │   └── globals.css
+    │
     ├── .env.local
     ├── package.json
     ├── next.config.js
     ├── tailwind.config.js
     └── postcss.config.js
+
 ```
 
 ---
@@ -271,6 +292,14 @@ module.exports = nextConfig
 - Frontend behavior was tested in the browser to validate loading states, error handling, and dynamic routing.
 - Frontend components were validated to ensure proper props usage, conditional rendering, and API-driven state updates.
 - Ensured the frontend correctly consumes and renders data from the backend API.
+
+### Run backend tests
+
+```bash
+cd backend 
+cd fronted
+npm test
+
 
 
 ## 🎯 Development Notes
