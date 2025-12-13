@@ -1,7 +1,4 @@
 // backend/data/mockData.js
-
-// Mock Database - TWO EVENTS
-
 const eventsDB = {
   1: {
     id: 1,
