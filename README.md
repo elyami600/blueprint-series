@@ -11,17 +11,28 @@ project/
 │   ├── src/
 │   │   ├── app.js                   # Express app configuration
 │   │   ├── server.js                # Server entry point
-│   │   ├── index.js                 # App bootstrap
+│   │
+│   │   ├── config/
+│   │   │   └── db.js                # MongoDB connection (Mongoose)
+│   │
 │   │   ├── controllers/
 │   │   │   └── eventController.js   # API business logic
+│   │
 │   │   ├── routes/
 │   │   │   └── eventRoutes.js       # API route definitions
-│   │   ├── data/
-│   │   │   └── mockData.js           # Mock event data (in-memory)
-│   │   │
-│   │   └── tests/
-│   │       └── event.test.js         # Jest + Supertest API tests
 │   │
+│   │   ├── data/
+│   │   │   └── mockData.js          # Mock event data (prototype version)
+│   │
+│   │   ├── models/                  # MongoDB models (MongoDB branch)
+│   │   │   └── Event.js
+│   │
+│   │   ├── tests/
+│   │   │   └── event.test.js        # Jest + Supertest API tests
+│   │
+│   │   └── seed.js                  # Database seeding script (MongoDB)
+│   │
+│   ├── .env                         # Environment variables (ignored)
 │   ├── package.json
 │   ├── package-lock.json
 │   └── .gitignore
