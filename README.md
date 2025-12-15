@@ -191,9 +191,7 @@ const nextConfig = {
 
 module.exports = nextConfig
 ```
-
 ---
-
 
 ### API Not Connecting
 
@@ -209,8 +207,6 @@ module.exports = nextConfig
 2. ✅ Restart Next.js dev server after config changes
 3. ✅ Check image paths in `data/events.js`
 4. ✅ Verify images exist in `public/images/`
-
-
 
 ## 📝 API Response Examples
 
@@ -293,15 +289,17 @@ module.exports = nextConfig
 - Frontend components were validated to ensure proper props usage, conditional rendering, and API-driven state updates.
 - Ensured the frontend correctly consumes and renders data from the backend API.
 
-### Run backend tests
-
+### Run  Testing fronted tests || backend fronted tests
 ```bash
-cd backend 
+# Navigate to frontend folder
 cd fronted
 npm test
 
-
-
+# Navigate to backend folder
+cd backend 
+cd fronted
+npm test
+```
 ## 🎯 Development Notes
 
 - **Total Development Time:** Under 2 hours ⏱️
@@ -311,15 +309,14 @@ npm test
 - **Data:** Mock data in JSON format
 - **Images:** Placeholder images (Unsplash)
 
----
-
 ## 📚 Tech Stack
 
 - **Frontend:** Next.js 15, React 18, Tailwind CSS
 - **Backend:** Express.js, Node.js
 - **Deployment:** Vercel (Frontend), Railway/Render (Backend)
 
----
-
-
 **Built with ❤️ for The Gradient Group, LLC**
+
+
+
+
