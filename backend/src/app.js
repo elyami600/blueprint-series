@@ -1,24 +1,50 @@
-const express = require("express");
-const cors = require("cors");
-const eventRoutes = require("./routes/eventRoutes");
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const compression = require('compression');
+const config = require('./config');
+const routes = require('./routes');
+const errorHandler = require('./middleware/errorHandler');
+const requestLogger = require('./middleware/requestLogger');
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// Security middleware
+app.use(helmet());
+
+// CORS
+app.use(cors({
+  origin: config.corsOrigin,
+  credentials: true,
+}));
+
+// Compression
+app.use(compression());
+
+// Body parsing
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Routes
-app.use("/api", eventRoutes);
+// Request logging
+app.use(requestLogger);
 
-// Health check
-app.get("/health", (req, res) => {
-  res.json({ status: "OK", message: "API is running ✅" });
-});
+// app.use((req, res, next) => {
+//   console.log(`📍 ${req.method} ${req.path}`);
+//   next();
+// });
+// Mount all routes
+app.use('/', routes);
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).json({ error: "Endpoint not found" });
+  res.status(404).json({
+    success: false,
+    message: 'Endpoint not found',
+    path: req.path,
+  });
 });
+
+// Error handler (must be last)
+app.use(errorHandler);
 
 module.exports = app;

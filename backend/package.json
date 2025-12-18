@@ -1,21 +1,30 @@
 {
-  "name": "backend",
+  "name": "blueprint-series-api",
   "version": "1.0.0",
-  "description": "",
-  "main":"src/server.js",
+  "description": "Professional API for Blueprint Series with MongoDB",
+  "main": "src/server.js",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "start":"node src/server.js",
+    "start": "node src/server.js",
+    "seed": "node -r dotenv/config src/scripts/seed.js",
     "test": "jest --runInBand"
   },
-  "keywords": [],
+  "keywords": [
+    "express",
+    "api",
+    "events",
+    "mongodb"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "compression": "^1.8.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "helmet": "^8.1.0",
+    "mongoose": "^9.0.1"
   },
   "devDependencies": {
     "jest": "^29.7.0",
