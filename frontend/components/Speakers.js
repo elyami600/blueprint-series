@@ -2,6 +2,7 @@
 
 export default function Speakers({ speakers = [] }) {
   // FORCE exactly 3 speakers
+  console.log("Speakers received:", speakers);
   const visibleSpeakers = speakers.slice(0, 3);
 
   return (

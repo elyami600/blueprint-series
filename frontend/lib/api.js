@@ -1,106 +1,157 @@
-// lib/api.js - API Service Layer
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:4000';
 
+class APIError extends Error {
+  constructor(message, statusCode, errors = null) {
+    super(message);
+    this.name = 'APIError';
+    this.statusCode = statusCode;
+    this.errors = errors;
+  }
+}
 
 class EventAPI {
-async fetchWithError(url) {
-    console.log("Fetching URL:", url);
-
+  /**
+   * Generic fetch wrapper with error handling
+   */
+  async fetchWithError(url, options = {}) {
     try {
-      const res = await fetch(url, {
-        cache: 'no-store', // Important for App Router
-      });
+      console.log(`[API] Fetching: ${url}`);
       
-      const contentType = res.headers.get("content-type") || "";
+      const response = await fetch(url, {
+        ...options,
+        cache: 'no-store',
+        headers: {
+          'Content-Type': 'application/json',
+          ...options.headers,
+        },
+      });
 
-      let body;
-      if (contentType.includes("application/json")) {
-        body = await res.json();
+      const contentType = response.headers.get('content-type');
+      let data;
+
+      if (contentType && contentType.includes('application/json')) {
+        data = await response.json();
       } else {
-        body = await res.text();
+        data = await response.text();
       }
 
-      if (!res.ok) {
-        const msg = typeof body === "string" ? body : (body?.error || JSON.stringify(body));
-        throw new Error(`API Error ${res.status}: ${msg}`);
+      if (!response.ok) {
+        const message = data.message || data.error || 'Request failed';
+        throw new APIError(message, response.status, data.errors);
       }
 
-      return body;
+      // Handle new response format: { success, message, data }
+      if (data.success !== undefined) {
+        return data.data;
+      }
+
+      // Fallback for direct data responses
+      return data;
     } catch (error) {
-      console.error("Fetch error:", error);
-      throw error;
+      if (error instanceof APIError) {
+        throw error;
+      }
+      
+      console.error('[API] Error:', error);
+      throw new APIError(
+        error.message || 'Network error occurred',
+        0
+      );
     }
   }
 
-
-
-  async getEvent(id) {
-    return this.fetchWithError(`${API_BASE_URL}/api/event/${id}`);
-  }
-
-  async getIntroduction(id) {
-    return this.fetchWithError(`${API_BASE_URL}/api/introduction/${id}`);
-  }
-
-  async getAgenda(id) {
-    return this.fetchWithError(`${API_BASE_URL}/api/agenda/${id}`);
-  }
-
-  async getSpeakers(id) {
-    return this.fetchWithError(`${API_BASE_URL}/api/speakers/${id}`);
-  }
-
-  async getEventDetails(id) {
-    return this.fetchWithError(`${API_BASE_URL}/api/event-details/${id}`);
-  }
-
-  async getPreviousEvents(id) {
-    return this.fetchWithError(`${API_BASE_URL}/api/previous-events/${id}`);
-  }
-
-  async getFAQ(id) {
-    return this.fetchWithError(`${API_BASE_URL}/api/faq/${id}`);
-  }
-
+  /**
+   * Get all events (summary list)
+   * @returns {Promise<Array>} List of events
+   */
   async getAllEvents() {
     return this.fetchWithError(`${API_BASE_URL}/api/events`);
   }
 
-  // Fetch all data for an event in one go
-  async getEventData(id) {
-    try {
-      const [
-        event,
-        introduction,
-        agenda,
-        speakers,
-        eventDetails,
-        previousEvents,
-        faq
-      ] = await Promise.all([
-        this.getEvent(id),
-        this.getIntroduction(id),
-        this.getAgenda(id),
-        this.getSpeakers(id),
-        this.getEventDetails(id),
-        this.getPreviousEvents(id),
-        this.getFAQ(id)
-      ]);
+  /**
+   * Get complete event with all data
+   * @param {string|number} id - Event ID
+   * @returns {Promise<Object>} Complete event data
+   */
+  async getCompleteEvent(id) {
+    return this.fetchWithError(`${API_BASE_URL}/api/event/${id}`);
+  }
 
-      return {
-        event,
-        introduction,
-        agenda,
-        speakers,
-        eventDetails,
-        previousEvents,
-        faq
-      };
-    } catch (error) {
-      console.error('Error fetching event data:', error);
-      throw error;
-    }
+  /**
+   * Get basic event information only
+   * @param {string|number} id - Event ID
+   * @returns {Promise<Object>} Basic event data
+   */
+  async getBasicEvent(id) {
+    return this.fetchWithError(`${API_BASE_URL}/api/event/${id}/basic`);
+  }
+
+  /**
+   * Get event introduction
+   * @param {string|number} id - Event ID
+   * @returns {Promise<Object>} Introduction data
+   */
+  async getIntroduction(id) {
+    return this.fetchWithError(`${API_BASE_URL}/api/introduction/${id}`);
+  }
+
+  /**
+   * Get event agenda
+   * @param {string|number} id - Event ID
+   * @returns {Promise<Object>} Agenda data
+   */
+  async getAgenda(id) {
+    return this.fetchWithError(`${API_BASE_URL}/api/agenda/${id}`);
+  }
+
+  /**
+   * Get event speakers
+   * @param {string|number} id - Event ID
+   * @returns {Promise<Object>} Speakers data
+   */
+  async getSpeakers(id) {
+    return this.fetchWithError(`${API_BASE_URL}/api/speakers/${id}`);
+  }
+
+  /**
+   * Get event details
+   * @param {string|number} id - Event ID
+   * @returns {Promise<Object>} Event details
+   */
+  async getEventDetails(id) {
+    return this.fetchWithError(`${API_BASE_URL}/api/event-details/${id}`);
+  }
+
+  /**
+   * Get previous events
+   * @param {string|number} id - Event ID
+   * @returns {Promise<Object>} Previous events data
+   */
+  async getPreviousEvents(id) {
+    return this.fetchWithError(`${API_BASE_URL}/api/previous-events/${id}`);
+  }
+
+  /**
+   * Get FAQ
+   * @param {string|number} id - Event ID
+   * @returns {Promise<Object>} FAQ data
+   */
+  async getFAQ(id) {
+    return this.fetchWithError(`${API_BASE_URL}/api/faq/${id}`);
+  }
+
+  /**
+   * Check API health
+   * @returns {Promise<Object>} Health status
+   */
+  async checkHealth() {
+    return this.fetchWithError(`${API_BASE_URL}/health`);
   }
 }
 
-export default new EventAPI();
+// Export singleton instance
+const eventAPI = new EventAPI();
+export default eventAPI;
+
+// Also export the class and error for advanced usage
+export { EventAPI, APIError };

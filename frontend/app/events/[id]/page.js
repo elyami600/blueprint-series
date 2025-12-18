@@ -1,111 +1,60 @@
-// app/events/[id]/page.js
-"use client";
-
-import React, { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
-
 import NavBar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Introduction from "@/components/Introduction";
 import Agenda from "@/components/Agenda";
 import Speakers from "@/components/Speakers";
 import EventDetails from "@/components/EventDetails";
-import PreviousEvents from "@/components/PreviousEvents";
 import FAQ from "@/components/FAQ";
-import Loading from "@/components/Loading";
-import ErrorMessage from "@/components/ErrorMessage";
 import Footer from "@/components/Footer";
+import ErrorMessage from "@/components/ErrorMessage";
 import eventAPI from "@/lib/api";
 
-export default function EventPage() {
-  const params = useParams();
-  const id = params?.id ?? "1"; 
+export default async function EventPage({ params }) {
+ const { id } = await params; //
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError]   = useState(null);
-  const [data, setData]     = useState(null);
+  if (!id) return <ErrorMessage message="Missing event id" />;
 
-  useEffect(() => {
-    if (!id) return;
+  try {
+    const res = await eventAPI.getCompleteEvent(id);
+    const event = res?.data ?? res;
 
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
+    if (!event) return <ErrorMessage message="Event not found" />;
 
-      try {
-        const eventData = await eventAPI.getEventData(id);
-        setData(eventData);
-      } catch (err) {
-        console.error("Error fetching event:", err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+    return (
+      <main className="bg-white text-black">
+        <NavBar />
 
-    fetchData();
-  }, [id]);
+        <section id="tickets">
+          <Hero event={event} />
+        </section>
 
-  if (loading) return <Loading />;
-  if (error)   return <ErrorMessage message={error} />;
-  if (!data)   return <ErrorMessage message="Event not found" />;
+        <section id="intro">
+          <Introduction content={event.introduction || ""} />
+        </section>
 
-  const {
-    event,
-    introduction,
-    agenda,
-    speakers,
-    eventDetails,
-    previousEvents,
-    faq,
-  } = data;
+        <section id="agenda">
+          <Agenda items={event.agenda || []} />
+        </section>
 
-  return (
-    <main className="bg-white text-black">
-      <NavBar />
+        <section id="speakers">
+          <Speakers speakers={event.speakers || []} />
+        </section>
 
-      {/* Hero / Tickets section */}
-      <section id="tickets">
-        <Hero event={event} />
-      </section>
+        <section id="details">
+          <EventDetails
+            content={event.details || ""}
+            pastEventsImage={event.pastEventsImage}
+          />
+        </section>
 
-      {/* INTRO SECTION */}
-      <section id="intro">
-        {/* introduction from API is { content: "..." } */}
-        <Introduction content={introduction?.content || ""} />
-      </section>
+        <section id="faq">
+          <FAQ questions={event.faq || []} />
+        </section>
 
-      {/* AGENDA SECTION */}
-      <section id="agenda">
-        {/* agenda from API is { items: [...] } */}
-        <Agenda items={agenda?.items || []} />
-      </section>
-
-      {/* SPEAKERS SECTION */}
-      <section id="speakers">
-        {/* speakers from API is { speakers: [...] } */}
-        <Speakers speakers={speakers?.speakers || []} />
-      </section>
-
-      {/* “THE EVENT” SECTION */}
-      <section>
-        {/* eventDetails from API is { content: "..." } */}
-        <EventDetails
-          content={eventDetails?.content || ""}
-          mainImage={event.heroImage}                 // from eventsDB
-          gallery={previousEvents?.events || []}      // array of previous events
-        />
-      </section>
-
-
-      {/* FAQ SECTION */}
-      <section>
-        {/* faq from API is { questions: [...] } */}
-        <FAQ questions={faq?.questions || []} />
-      </section>
-
-      {/* FOOTER */}
-      <Footer />
-    </main>
-  );
+        <Footer />
+      </main>
+    );
+  } catch (err) {
+    return <ErrorMessage message={err?.message || "Failed to load event"} />;
+  }
 }
